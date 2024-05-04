@@ -1,12 +1,15 @@
 const express = require('express')
 const router = require('./routes/apiRoutes')
 const dotenv = require('dotenv').config()
-
+const errorHandler = require('./middleware/errorHandler')
+const connectDb = require('./config/dbConnection')
 
 const app = express()
-const port = 3000
+const port = process.env.PORT | 3000
 
+connectDb()
 app.use(express.json())
 app.use('/api/contacts', router)
+app.use(errorHandler)
 
 app.listen(port, console.log("App listening on port: " + port))
